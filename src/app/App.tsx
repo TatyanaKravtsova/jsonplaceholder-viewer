@@ -1,4 +1,4 @@
-import React from 'react';
+/*import React from 'react';*/
 import MainLayout from '../shared/layouts/MainLayout'
 import { PostList } from '../widgets/PostList/PostList.tsx';
 
