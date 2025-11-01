@@ -1,13 +1,15 @@
-/*import React from 'react';*/
-import MainLayout from '../shared/layouts/MainLayout'
-import { PostList } from '../widgets/PostList/PostList.tsx';
 
+import MainLayout from '../shared/layouts/MainLayout';
+import { PostList } from '../widgets/PostList/PostList.tsx';
+import { ThemeProvider } from '../shared/lib/theme/ThemeContext';
 
 function App() {
   return (
-    <MainLayout>
-      <PostList />
-    </MainLayout>
+    <ThemeProvider>
+      <MainLayout>
+        <PostList />
+      </MainLayout>
+    </ThemeProvider>
   );
 }
 
