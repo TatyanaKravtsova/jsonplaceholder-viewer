@@ -212,6 +212,41 @@ a:hover {
   animation: fadeIn 0.2s ease;
 }
 
+/* Post card + comments button as one visual block */
+.post-with-actions {
+  border: 1px solid var(--post-card-border);
+  border-radius: 8px;
+  background-color: var(--post-card-bg);
+  overflow: hidden; /* clip child radii */
+  transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.2s ease;
+  display: flex;
+  flex-direction: column;
+}
+
+.post-with-actions:hover {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
+}
+
+.post-with-actions .post-card {
+  border: none;         /* use wrapper border */
+  border-radius: 0;     /* handled by wrapper */
+  padding: 1.5rem;      /* keep spacing */
+  flex: 1;              /* take available space so button can stick to bottom */
+}
+
+.post-with-actions .comment-list > .btn {
+  width: 100%;
+  display: block;
+  border-radius: 0;                 /* flush edges */
+  border-top: 1px solid var(--post-card-border);
+  padding: 0.9rem 1.2rem;
+  text-align: center;
+}
+
+.post-with-actions .comment-list {
+  margin-top: auto; /* push comment controls to the bottom of the card */
+}
+
 .modal {
   position: relative;
   background-color: var(--modal-bg);
@@ -266,6 +301,19 @@ a:hover {
   padding: 1.5rem;
   color: var(--text-color);
   line-height: 1.6;
+}
+
+/* Post length filter layout */
+.post-length-filter {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem; /* space between first input block and second label */
+}
+
+.post-length-filter label {
+  display: flex;
+  flex-direction: column; /* label text above input */
+  gap: 0.25rem;
 }
 
 @keyframes fadeIn {
