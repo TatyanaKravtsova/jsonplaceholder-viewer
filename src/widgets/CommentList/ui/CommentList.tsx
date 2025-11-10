@@ -5,6 +5,7 @@ export interface CommentItem {
   body: string;
 }
 
+
 interface CommentListProps {
   comments: CommentItem[];
 }
