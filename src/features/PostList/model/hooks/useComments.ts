@@ -1,5 +1,9 @@
 import { useEffect, useState } from 'react';
-import { type CommentItem } from '../../../widgets/CommentList/ui/CommentList';
+
+export type CommentItem = {
+  id: number;
+  body: string;
+};
 
 export const useComments = (postId: number | undefined) => {
   const [comments, setComments] = useState<CommentItem[]>([]);
@@ -37,6 +41,3 @@ export const useComments = (postId: number | undefined) => {
 
   return { comments, loading, error };
 };
-
-
-
