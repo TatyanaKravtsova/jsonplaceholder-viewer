@@ -1,15 +1,22 @@
 import React, { useCallback, useMemo, useState } from 'react';
-import { Link } from 'react-router-dom';
-import PostCard from '../../entities/post/ui/PostCard.tsx';
-import { withLoading } from '../../shared/lib/hoc/withLoading';
-import { filterByLength } from '../../features/PostLengthFilter/lib/filterByLength';
-import PostLengthFilter from '../../features/PostLengthFilter/ui/PostLengthFilter';
-import CommentList from '../CommentList/ui/CommentList';
-import { usePosts } from '../../features/PostList/model/hooks/usePosts';
-import { usePostComments } from '../../features/PostList/model/hooks/usePostComments';
+import { useParams, Link } from 'react-router-dom';
+import PostCard from '../entities/post/ui/PostCard.tsx';
+import { filterByLength } from '../features/PostLengthFilter/lib/filterByLength';
+import PostLengthFilter from '../features/PostLengthFilter/ui/PostLengthFilter';
+import CommentList from '../widgets/CommentList/ui/CommentList';
+import { usePosts } from '../features/PostList/model/hooks/usePosts.ts';
+import { usePostComments } from '../features/PostList/model/hooks/usePostComments';
+import { withLoading } from '../shared/lib/hoc/withLoading';
+import UserTabs from '../widgets/UserTabs/UserTabs';
 
-export const PostList: React.FC<{ isLoading?: boolean }> = ({ isLoading: externalLoading }) => {
-  const { posts, loading } = usePosts();
+interface UserPostsPageContentProps {
+  isLoading?: boolean;
+}
+
+const UserPostsPageContent: React.FC<UserPostsPageContentProps> = ({ isLoading: externalLoading }) => {
+  const { id } = useParams<{ id: string }>();
+  const userId = id ? parseInt(id, 10) : undefined;
+  const { posts, loading } = usePosts(userId);
   const [minLen, setMinLen] = useState<number>(0);
   const [maxLen, setMaxLen] = useState<number | undefined>(undefined);
 
@@ -32,8 +39,14 @@ export const PostList: React.FC<{ isLoading?: boolean }> = ({ isLoading: externa
     return <div>Loading...</div>;
   }
 
+  if (!id) {
+    return <div>User ID is required</div>;
+  }
+
   return (
     <div className="post-list">
+      <h1>User {id} Posts</h1>
+      <UserTabs userId={id} />
       <PostLengthFilter minLength={minLen} maxLength={maxLen} onChange={handleFilterChange} />
       {filteredPosts.map((post) => (
         <div key={post.id} className="post-with-actions">
@@ -47,5 +60,5 @@ export const PostList: React.FC<{ isLoading?: boolean }> = ({ isLoading: externa
   );
 };
 
-const PostListWithLoading = withLoading(PostList);
-export default PostListWithLoading;
+export const UserPostsPage = withLoading(UserPostsPageContent);
+

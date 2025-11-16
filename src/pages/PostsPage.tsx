@@ -1,14 +1,18 @@
 import React, { useCallback, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
-import PostCard from '../../entities/post/ui/PostCard.tsx';
-import { withLoading } from '../../shared/lib/hoc/withLoading';
-import { filterByLength } from '../../features/PostLengthFilter/lib/filterByLength';
-import PostLengthFilter from '../../features/PostLengthFilter/ui/PostLengthFilter';
-import CommentList from '../CommentList/ui/CommentList';
-import { usePosts } from '../../features/PostList/model/hooks/usePosts';
-import { usePostComments } from '../../features/PostList/model/hooks/usePostComments';
+import PostCard from '../entities/post/ui/PostCard.tsx';
+import { filterByLength } from '../features/PostLengthFilter/lib/filterByLength';
+import PostLengthFilter from '../features/PostLengthFilter/ui/PostLengthFilter';
+import CommentList from '../widgets/CommentList/ui/CommentList';
+import { usePosts } from '../features/PostList/model/hooks/usePosts.ts';
+import { usePostComments } from '../features/PostList/model/hooks/usePostComments';
+import { withLoading } from '../shared/lib/hoc/withLoading';
 
-export const PostList: React.FC<{ isLoading?: boolean }> = ({ isLoading: externalLoading }) => {
+interface PostsPageContentProps {
+  isLoading?: boolean;
+}
+
+const PostsPageContent: React.FC<PostsPageContentProps> = ({ isLoading: externalLoading }) => {
   const { posts, loading } = usePosts();
   const [minLen, setMinLen] = useState<number>(0);
   const [maxLen, setMaxLen] = useState<number | undefined>(undefined);
@@ -34,6 +38,7 @@ export const PostList: React.FC<{ isLoading?: boolean }> = ({ isLoading: externa
 
   return (
     <div className="post-list">
+      <h1>All Posts</h1>
       <PostLengthFilter minLength={minLen} maxLength={maxLen} onChange={handleFilterChange} />
       {filteredPosts.map((post) => (
         <div key={post.id} className="post-with-actions">
@@ -47,5 +52,5 @@ export const PostList: React.FC<{ isLoading?: boolean }> = ({ isLoading: externa
   );
 };
 
-const PostListWithLoading = withLoading(PostList);
-export default PostListWithLoading;
+export const PostsPage = withLoading(PostsPageContent);
+
