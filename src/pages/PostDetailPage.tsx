@@ -1,13 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import CommentList, { type CommentItem } from '../widgets/CommentList/ui/CommentList';
-
-interface Post {
-  userId: number;
-  id: number;
-  title: string;
-  body: string;
-}
+import type { Post } from '../entities/post/model/types';
+import type { Comment } from '../entities/comment/model/types';
 
 export const PostDetailPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -29,8 +24,8 @@ export const PostDetailPage: React.FC = () => {
           throw new Error('Failed to fetch post');
         }
 
-        const postData = await postResponse.json() as Post;
-        const commentsData = await commentsResponse.json() as Array<{ id: number; body: string; [key: string]: unknown }>;
+        const postData = (await postResponse.json()) as Post;
+        const commentsData = (await commentsResponse.json()) as Comment[];
 
         setPost(postData);
         setComments(commentsData.map((c) => ({ id: c.id, body: c.body })));

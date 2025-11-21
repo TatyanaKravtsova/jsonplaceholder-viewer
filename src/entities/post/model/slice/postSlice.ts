@@ -1,5 +1,5 @@
 import { createEntityAdapter, createSlice, type PayloadAction } from '@reduxjs/toolkit';
-import type { Post } from '../../api/postsApi';
+import type { Post } from '../types';
 
 export const postAdapter = createEntityAdapter<Post>({
   sortComparer: (a, b) => b.id - a.id,

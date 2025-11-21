@@ -1,19 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
-
-interface Photo {
-  albumId: number;
-  id: number;
-  title: string;
-  url: string;
-  thumbnailUrl: string;
-}
-
-interface Album {
-  userId: number;
-  id: number;
-  title: string;
-}
+import type { Photo } from '../entities/photo/model/types';
+import type { Album } from '../entities/album/model/types';
 
 export const PhotosPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -35,8 +23,8 @@ export const PhotosPage: React.FC = () => {
           throw new Error('Failed to fetch data');
         }
         
-        const photosData = await photosResponse.json();
-        const albumData = await albumResponse.json();
+        const photosData = (await photosResponse.json()) as Photo[];
+        const albumData = (await albumResponse.json()) as Album;
         
         setPhotos(photosData);
         setAlbum(albumData);

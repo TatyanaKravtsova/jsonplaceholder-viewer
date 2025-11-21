@@ -38,7 +38,7 @@ export const PostList: React.FC<{ isLoading?: boolean }> = ({ isLoading: externa
       {filteredPosts.map((post) => (
         <div key={post.id} className="post-with-actions">
           <Link to={`/posts/${post.id}`}>
-            <PostCard post={{ id: post.id, title: post.title, content: post.body }} />
+            <PostCard post={{ id: post.id, title: post.title, body: post.body }} />
           </Link>
           <CommentList comments={comments[post.id] || []} />
         </div>

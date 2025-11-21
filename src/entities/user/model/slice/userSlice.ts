@@ -1,13 +1,5 @@
 import { createEntityAdapter, createSlice, type PayloadAction } from '@reduxjs/toolkit';
-
-export interface User {
-  id: number;
-  name: string;
-  username: string;
-  email: string;
-  phone?: string;
-  website?: string;
-}
+import type { User } from '../types';
 
 export const userAdapter = createEntityAdapter<User>({
   sortComparer: (a, b) => a.id - b.id,

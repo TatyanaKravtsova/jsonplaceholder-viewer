@@ -1,20 +1,17 @@
 import React from 'react';
+import type { Post } from '../model/types';
 
-interface Post {
-  id: number;
-  title: string;
-  content: string;
-}
+type PostCardData = Pick<Post, 'id' | 'title' | 'body'>;
 
 interface PostCardProps {
-  post: Post;
+  post: PostCardData;
 }
 
 export const PostCard: React.FC<PostCardProps> = ({ post }) => {
   return (
-    <div className="post-card">
-      <h3>{post.title}</h3>
-      <p>{post.content}</p>
+    <div className="post-card" aria-labelledby={`post-${post.id}-title`}>
+      <h3 id={`post-${post.id}-title`}>{post.title}</h3>
+      <p>{post.body}</p>
     </div>
   );
 };

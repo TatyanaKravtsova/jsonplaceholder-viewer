@@ -1,12 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import UserTabs from '../widgets/UserTabs/UserTabs';
-
-interface Album {
-  userId: number;
-  id: number;
-  title: string;
-}
+import type { Album } from '../entities/album/model/types';
 
 export const AlbumsPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -24,7 +19,7 @@ export const AlbumsPage: React.FC = () => {
           throw new Error('Failed to fetch albums');
         }
         
-        const data = await response.json();
+        const data = (await response.json()) as Album[];
         setAlbums(data);
       } catch (err) {
         setError(err instanceof Error ? err.message : 'An error occurred');

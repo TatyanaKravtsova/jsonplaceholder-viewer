@@ -1,13 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import UserTabs from '../widgets/UserTabs/UserTabs';
-
-interface Todo {
-  userId: number;
-  id: number;
-  title: string;
-  completed: boolean;
-}
+import type { Todo } from '../entities/todo/model/types';
 
 export const TodosPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -25,7 +19,7 @@ export const TodosPage: React.FC = () => {
           throw new Error('Failed to fetch todos');
         }
         
-        const data = await response.json();
+        const data = (await response.json()) as Todo[];
         setTodos(data);
       } catch (err) {
         setError(err instanceof Error ? err.message : 'An error occurred');

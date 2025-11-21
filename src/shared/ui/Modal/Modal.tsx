@@ -1,10 +1,16 @@
-import React, { createContext, useContext, useEffect } from 'react';
+import React, {
+  createContext,
+  useContext,
+  useEffect,
+  useCallback,
+  type PropsWithChildren,
+  type MouseEventHandler,
+} from 'react';
 import { createPortal } from 'react-dom';
 
-interface ModalRootProps {
+interface ModalRootProps extends PropsWithChildren {
   isOpen: boolean;
   onClose: () => void;
-  children: React.ReactNode;
   title?: string;
 }
 
@@ -23,6 +29,18 @@ const useModalContext = (): ModalContextValue => {
 };
 
 const ModalRoot: React.FC<ModalRootProps> = ({ isOpen, onClose, children, title }) => {
+  const handleOverlayClick = useCallback<MouseEventHandler<HTMLDivElement>>(
+    (event) => {
+      event.preventDefault();
+      onClose();
+    },
+    [onClose],
+  );
+
+  const stopPropagation = useCallback<MouseEventHandler<HTMLDivElement>>((event) => {
+    event.stopPropagation();
+  }, []);
+
   useEffect(() => {
     const handleEscape = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
@@ -68,7 +86,7 @@ const ModalRoot: React.FC<ModalRootProps> = ({ isOpen, onClose, children, title 
   const modalContent = (
     <div
       className="modal-overlay"
-      onClick={onClose}
+      onClick={handleOverlayClick}
       aria-hidden="true"
       style={{
         position: 'fixed', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center',
@@ -79,7 +97,7 @@ const ModalRoot: React.FC<ModalRootProps> = ({ isOpen, onClose, children, title 
         className="modal"
         role="dialog"
         aria-modal="true"
-        onClick={(e) => e.stopPropagation()}
+        onClick={stopPropagation}
         style={{
           width: '100%', maxWidth: '640px', maxHeight: '90vh', background: 'var(--modal-bg, #fff)',
           borderRadius: '8px', boxShadow: '0 10px 30px rgba(0,0,0,0.2)', display: 'flex', flexDirection: 'column',
@@ -96,7 +114,7 @@ const ModalRoot: React.FC<ModalRootProps> = ({ isOpen, onClose, children, title 
   return createPortal(modalContent, document.body);
 };
 
-const Header: React.FC<{ children?: React.ReactNode; title?: string } > = ({ children, title }) => {
+const Header: React.FC<PropsWithChildren<{ title?: string }>> = ({ children, title }) => {
   const { onClose } = useModalContext();
   return (
     <div
@@ -121,7 +139,7 @@ const Header: React.FC<{ children?: React.ReactNode; title?: string } > = ({ chi
   );
 };
 
-const Body: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+const Body: React.FC<PropsWithChildren> = ({ children }) => {
   return (
     <div className="modal-content" style={{ padding: '16px', overflowY: 'auto', flex: 1 }}>
       {children}
@@ -129,7 +147,7 @@ const Body: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   );
 };
 
-const Footer: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+const Footer: React.FC<PropsWithChildren> = ({ children }) => {
   return (
     <div className="modal-footer" style={{ padding: '12px 16px', borderTop: '1px solid #e5e7eb' }}>
       {children}
