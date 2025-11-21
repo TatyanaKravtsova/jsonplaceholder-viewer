@@ -11,4 +11,3 @@ export const ThemeSwitcher: React.FC = () => {
     </Button>
   );
 };
-

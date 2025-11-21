@@ -68,4 +68,3 @@ export const usePostComments = (postIds: number[]) => {
 
   return { comments, loading, error };
 };
-
