@@ -1,9 +1,7 @@
-import React, { useState, useEffect, type ReactNode } from 'react';
+import React, { useState, useEffect, type PropsWithChildren, useCallback } from 'react';
 import { ThemeContext, type Theme } from './context';
 
-interface ThemeProviderProps {
-  children: ReactNode;
-}
+type ThemeProviderProps = PropsWithChildren;
 
 export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
   const [theme, setTheme] = useState<Theme>(() => {
@@ -20,9 +18,9 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
     document.documentElement.setAttribute('data-theme', theme);
   }, [theme]);
 
-  const toggleTheme = () => {
+  const toggleTheme = useCallback(() => {
     setTheme((prevTheme) => (prevTheme === 'light' ? 'dark' : 'light'));
-  };
+  }, []);
 
   return (
     <ThemeContext.Provider value={{ theme, toggleTheme }}>

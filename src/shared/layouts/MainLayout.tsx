@@ -1,10 +1,8 @@
-import React from 'react';
+import React, { type PropsWithChildren } from 'react';
 import Header from '../../widgets/LayoutHeader/Header.tsx';
 import Footer from '../../widgets/LayoutFooter/Footer.tsx';
 
-interface MainLayoutProps {
-  children: React.ReactNode;
-}
+type MainLayoutProps = PropsWithChildren;
 
 export const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
   return (

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback, type MouseEventHandler } from 'react';
 import { Modal } from '../../shared/ui/Modal/Modal';
 import { Button } from '../../shared/ui/Button/Button';
 import { ThemeSwitcher } from '../../features/ThemeSwitcher/ui/ThemeSwitcher';
@@ -6,13 +6,13 @@ import { ThemeSwitcher } from '../../features/ThemeSwitcher/ui/ThemeSwitcher';
 export const Header: React.FC = () => {
   const [isAboutOpen, setIsAboutOpen] = useState(false);
 
-  const handleAboutClick = () => {
+  const handleAboutClick = useCallback<MouseEventHandler<HTMLButtonElement>>(() => {
     setIsAboutOpen(true);
-  };
+  }, []);
 
-  const handleCloseAbout = () => {
+  const handleCloseAbout = useCallback(() => {
     setIsAboutOpen(false);
-  };
+  }, []);
 
   return (
     <>

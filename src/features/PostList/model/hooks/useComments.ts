@@ -1,9 +1,7 @@
 import { useEffect, useState } from 'react';
+import type { Comment } from '../../../../entities/comment/model/types';
 
-export type CommentItem = {
-  id: number;
-  body: string;
-};
+export type CommentItem = Pick<Comment, 'id' | 'body'>;
 
 export const useComments = (postId: number | undefined) => {
   const [comments, setComments] = useState<CommentItem[]>([]);
@@ -27,7 +25,7 @@ export const useComments = (postId: number | undefined) => {
           throw new Error('Failed to fetch comments');
         }
         
-        const data = await response.json() as Array<{ id: number; body: string; [key: string]: unknown }>;
+        const data = (await response.json()) as Comment[];
         setComments(data.map((c) => ({ id: c.id, body: c.body })));
       } catch (err) {
         setError(err instanceof Error ? err.message : 'An error occurred');

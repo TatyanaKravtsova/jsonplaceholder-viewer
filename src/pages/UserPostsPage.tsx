@@ -51,7 +51,7 @@ const UserPostsPageContent: React.FC<UserPostsPageContentProps> = ({ isLoading: 
       {filteredPosts.map((post) => (
         <div key={post.id} className="post-with-actions">
           <Link to={`/posts/${post.id}`}>
-            <PostCard post={{ id: post.id, title: post.title, content: post.body }} />
+            <PostCard post={{ id: post.id, title: post.title, body: post.body }} />
           </Link>
           <CommentList comments={comments[post.id] || []} />
         </div>

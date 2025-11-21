@@ -1,10 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-
-export interface Album {
-  userId: number;
-  id: number;
-  title: string;
-}
+import type { Album } from '../model/types';
 
 export const albumsApi = createApi({
   reducerPath: 'albumsApi',
